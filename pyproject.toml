@@ -1,0 +1,61 @@
+[tool.poetry]
+name = "SeaDexRSS"
+version = "0.1.0"
+description = "RSS feed generator for SeaDex entries"
+authors = ["Golumpa <admin@golumpa.moe>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = "^0.115.6"
+uvicorn = "^0.34.0"
+sqlalchemy = "^2.0.23"
+aiohttp = "^3.9.1"
+apscheduler = "^3.10.4"
+aiosqlite = "^0.20.0"
+feedgen = "^1.0.0"
+python-anilist = "^1.0.9"
+
+[tool.poetry.group.dev.dependencies]
+black = "^24.10.0"
+ruff = "^0.8.4"
+pre-commit = "^3.6.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = "110"
+target-version = ['py311']
+include = '\.pyi?$'
+extend-exclude = '''
+(
+  /(
+      \.eggs
+    | \.git
+    | \.venv
+    | venv
+    | venv2
+    | _build
+    | build
+    | dist
+    | plugins
+    | temp
+  )/
+)
+'''
+
+[tool.ruff]
+target-version = "py311"
+line-length = 110
+select = ["C90", "E", "F", "I001", "PGH004", "RUF100"]
+ignore = ["F405", "E741", "C901", "F403", "E501"]
+fix = true
+fixable = ["I001"]
+isort.combine-as-imports = true
+force-exclude = true
+
+[tool.ruff.mccabe]
+# Unlike Flake8, default to a complexity level of 10.
+max-complexity = 25
