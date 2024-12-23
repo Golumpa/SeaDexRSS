@@ -117,7 +117,22 @@ async def fetch_and_save_snapshot(anilist_id: int, db: AsyncSession):
         return False
 
 
-@app.get("/rss/{anilist_id}")
+@app.get("/")
+async def root():
+    return {
+        "status": "healthy",
+        "message": "SeaDexRSS API is running",
+        "endpoints": {"/": "This help message", "/{anilist_id}": "Get RSS feed for a specific Anilist ID"},
+        "usage": {
+            "description": "To use this API, make a GET request to /{anilist_id} where {anilist_id} is the Anilist ID of the anime you want to track.",
+            "example": "/12345",
+            "response_type": "application/rss+xml",
+        },
+        "update_interval": f"{UPDATE_INTERVAL.total_seconds() / 60} minutes",
+    }
+
+
+@app.get("/{anilist_id}")
 async def get_rss(anilist_id: int, db: AsyncSession = Depends(get_db)):
     current_time = datetime.now(timezone.utc)
 
@@ -156,4 +171,4 @@ async def get_rss(anilist_id: int, db: AsyncSession = Depends(get_db)):
 if __name__ == "__main__":
     import uvicorn
 
-    uvicorn.run(app, host="0.0.0.0", port=8888, log_level="warning")
+    uvicorn.run(app, host="0.0.0.0", port=8888)
