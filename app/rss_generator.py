@@ -65,7 +65,6 @@ def format_snapshot_data(snapshot):
 def generate_rss(snapshots, anilist_id):
     fg = FeedGenerator()
 
-    # Use the anime title from the most recent snapshot
     anime_title = snapshots[0].anime_title if snapshots else f"Anilist ID {anilist_id}"
 
     fg.title(f"Seadex Updates for {anime_title}")
@@ -78,11 +77,9 @@ def generate_rss(snapshots, anilist_id):
         fe.title(f"Update on {formatted_date}")
         fe.link(href=f"https://anilist.co/anime/{anilist_id}")
 
-        # Format the snapshot data
         formatted_data = format_snapshot_data(snapshot)
         fe.description(formatted_data)
 
-        # Ensure the timestamp is timezone-aware
         if snapshot.timestamp.tzinfo is None:
             timestamp = snapshot.timestamp.replace(tzinfo=timezone.utc)
         else:

@@ -87,10 +87,8 @@ async def fetch_and_save_snapshot(anilist_id: int, db: AsyncSession):
 
         entry = await rest_client.get_entry(anilist_id)
         if entry:
-            # Fetch the anime info
             anime_info = await get_anime_info(anilist_id)
 
-            # Convert entry to JSON string for comparison
             entry_json = json.dumps(entry, sort_keys=True)
 
             if existing_snapshot and existing_snapshot.data == entry_json:
